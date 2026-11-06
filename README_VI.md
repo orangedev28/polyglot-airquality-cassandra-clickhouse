@@ -1,116 +1,165 @@
-# Starter dự án: Cassandra + ClickHouse cho giám sát chất lượng không khí
+# Polyglot persistence cho giám sát chất lượng không khí: Apache Cassandra + ClickHouse
 
-## Mục tiêu
-Prototype kiến trúc đa hệ CSDL (polyglot persistence):
-- **Apache Cassandra:** workload vận hành; truy vấn đo đạc theo trạm + chất ô nhiễm + ngày.
-- **ClickHouse:** workload phân tích; tổng hợp lịch sử theo thành phố, chất ô nhiễm và thời gian.
-- **Python:** tải/chuẩn hóa CSV và ghi cùng bộ sự kiện vào cả hai DB theo mô hình riêng.
+Đồ án cuối kỳ môn **GCOS134 – Các hệ cơ sở dữ liệu** (HUTECH, 2026).
 
-Hai DB không được so sánh như hai lựa chọn thay thế cùng mục đích. Ta đánh giá mức phù hợp với từng workload và độ phức tạp tích hợp.
+Nguyên mẫu kiến trúc đa hệ CSDL (polyglot persistence):
 
-## A. Yêu cầu
-- Docker Desktop hoặc Docker Engine + Compose.
-- Python 3.10–3.12.
-- RAM khuyến nghị tối thiểu 8 GB. Nếu máy yếu, giảm lượng dữ liệu và giới hạn heap của Cassandra trong `docker-compose.yml`.
+- **Apache Cassandra 5.0** – workload vận hành: tra cứu số đo theo *trạm + chỉ số + ngày*.
+- **ClickHouse 25.8** – workload phân tích: tổng hợp lịch sử theo *thành phố + chỉ số + thời gian*.
+- **Python** – thu thập dữ liệu OpenAQ, kiểm tra chất lượng và ghi kép (dual-write) cùng một tập sự kiện vào hai CSDL, mỗi CSDL dùng lược đồ riêng.
 
-## B. Chạy database
-Mở terminal tại thư mục dự án:
+Hai CSDL **không** được so sánh như hai lựa chọn thay thế cho cùng một việc; mỗi hệ được đánh giá trên đúng workload mà nó phụ trách.
+
+## Kiến trúc
+
+```text
+OpenAQ API v3 (hours) / CSV synthetic
+        │
+scripts/fetch_openaq.py ──► data/openaq_measurements.csv
+        │
+scripts/ingest_csv.py  (DatabaseWriter, ghi theo lô)
+        ├──► Cassandra   air_quality.measurements_by_station_day   (vận hành)
+        └──► ClickHouse  air_quality.measurements                  (phân tích)
+```
+
+Ghi kép **không phải** giao dịch phân tán nguyên tử: mỗi lô ghi Cassandra trước, ClickHouse sau.
+
+## Dữ liệu trong repo
+
+| Tệp | Nội dung |
+|---|---|
+| `data/openaq_measurements.csv` | 23.022 bản ghi OpenAQ theo giờ – 4 trạm, 12 cảm biến, 5 chỉ số (pm25, pm10, no2, so2, o3), 2026-08-02 → 2026-10-31 (UTC), `source = OpenAQ-hours` |
+| `data/sample_synthetic.csv` | 240 bản ghi **mô phỏng** – 2 trạm (1001, 1002), `source = SYNTHETIC_SAMPLE`, chỉ dùng kiểm thử luồng |
+| `results/benchmark.csv` | Lần đo A: 20 lần chạy |
+| `results/benchmark_openaq.csv` | Lần đo B: 50 lần chạy |
+
+Mọi phân tích dữ liệu thật phải lọc `source = 'OpenAQ-hours'`.
+
+## Yêu cầu
+
+- Docker Desktop (hoặc Docker Engine + Compose).
+- Python 3.9 trở lên (đã chạy thực tế với Python 3.9.6 trên macOS).
+- RAM khuyến nghị ≥ 8 GB. Cassandra được cố định heap 1 GB (`MAX_HEAP_SIZE`) trong `docker-compose.yml`.
+
+## 1. Khởi động hai CSDL
+
 ```bash
 docker compose up -d
-docker compose ps
-```
-Chờ Cassandra khởi động (lần đầu thường cần vài phút). Kiểm tra:
-```bash
+docker compose ps                      # chờ cả hai container ở trạng thái healthy
 docker exec -it aq-cassandra cqlsh -e "DESCRIBE KEYSPACES"
 docker exec -it aq-clickhouse clickhouse-client --query "SELECT 1"
 ```
 
-## C. Cài Python
+## 2. Cài môi trường Python
+
+macOS/Linux:
+
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+cp .env.example .env                   # điền OPENAQ_API_KEY của bạn vào .env
+```
+
 Windows PowerShell:
+
 ```powershell
 py -3 -m venv .venv
 .venv\Scripts\Activate.ps1
 pip install -r requirements.txt
 Copy-Item .env.example .env
 ```
-macOS/Linux:
+
+> `.env` chứa API key và đã được loại khỏi Git qua `.gitignore`. Không chia sẻ tệp này.
+
+## 3. Lược đồ
+
+Lược đồ nằm trong `sql/cassandra_schema.cql` và `sql/clickhouse_schema.sql`. `app/database.py` cũng tự tạo keyspace/database và bảng nếu chưa có, nên có thể bỏ qua bước tạo thủ công.
+
+- Cassandra: `PRIMARY KEY ((location_id, parameter, measurement_date), measured_at, sensor_id)`, `CLUSTERING ORDER BY (measured_at DESC)`. `measurement_date` là **ngày UTC**.
+- ClickHouse: `MergeTree`, `PARTITION BY toYYYYMM(measured_at)`, `ORDER BY (parameter, city, measured_at, location_id, sensor_id)`.
+
+## 4. Thu thập dữ liệu thật từ OpenAQ (tùy chọn – repo đã có sẵn CSV)
+
+Lấy API key tại https://explore.openaq.org/ và điền vào `.env`. Lệnh đã dùng cho dữ liệu trong repo:
+
 ```bash
-python3 -m venv .venv
-source .venv/bin/activate
-pip install -r requirements.txt
-cp .env.example .env
+python scripts/fetch_openaq.py --iso VN --days 90 \
+  --scan-locations 100 --max-sensors 12 --pages-per-sensor 4
 ```
 
-## D. Lấy dữ liệu thật từ OpenAQ
-Đăng ký API key tại https://explore.openaq.org/ rồi điền vào `.env`. Không chia sẻ key công khai.
-```bash
-python scripts/fetch_openaq.py --iso VN --days 30 --max-locations 8 --max-sensors 12 --pages-per-sensor 2
-```
-Nếu số bản ghi ít/không có:
-- tăng `--days` lên 90 hoặc 180;
-- tăng `--max-locations`;
-- thử `--iso TH` hoặc `--iso IN` nếu Việt Nam chưa đủ trạm/phép đo, và ghi rõ phạm vi địa lý trong báo cáo.
+Tham số: `--iso`, `--days`, `--scan-locations`, `--max-sensors`, `--pages-per-sensor`, `--out`. Script nghỉ ~1 giây giữa các lời gọi API và dừng khi gặp HTTP 429.
 
-OpenAQ chỉ lưu những dữ liệu đã được nền tảng thu thập/công khai; không đảm bảo tất cả các trạm tại Việt Nam có dữ liệu lịch sử đầy đủ. Tệp CSV phải được kiểm tra trước khi nạp DB. Ghi nhận OpenAQ và nguồn dữ liệu gốc theo thông tin attribution/license trả về.
+Lưu ý: trường `city` lấy từ `locality` của trạm; trạm không có `locality` sẽ nhận tên quốc gia (`Vietnam`).
 
-## E. Chạy ngay bằng dữ liệu thử nghiệm
-Nếu chưa có API key hoặc đợi khảo sát dữ liệu, tạo dữ liệu giả lập:
-```bash
-python scripts/generate_synthetic.py --rows 10000
-```
-Nó tạo `data/synthetic_measurements.csv`. Đây là **dữ liệu mô phỏng**, không được trình bày như dữ liệu quan trắc thật. Có thể tăng lên 100.000 hoặc 1.000.000 dòng tùy cấu hình máy.
+## 5. Nạp dữ liệu vào cả hai CSDL
 
-## F. Nạp CSV vào cả hai DB
 ```bash
-python scripts/ingest_csv.py --file data/synthetic_measurements.csv --batch-size 500
-```
-Hoặc:
-```bash
-python scripts/ingest_csv.py --file data/openaq_measurements.csv --batch-size 500
+python scripts/ingest_csv.py --file data/sample_synthetic.csv --batch-size 100     # kiểm thử luồng
+python scripts/ingest_csv.py --file data/openaq_measurements.csv --batch-size 500  # dữ liệu thật
 ```
 
-## G. Kiểm tra dữ liệu
-ClickHouse:
+> ⚠️ **Chỉ nạp mỗi tệp một lần vào CSDL trống.** Cassandra ghi đè theo khóa chính, nhưng ClickHouse `MergeTree` **không** khử trùng lặp – chạy lại sẽ nhân đôi dữ liệu ở ClickHouse.
+
+## 6. Kiểm chứng
+
 ```bash
-docker exec -it aq-clickhouse clickhouse-client --query "SELECT count(), min(measured_at), max(measured_at) FROM air_quality.measurements"
+# ClickHouse: tách theo nguồn (kỳ vọng 23.022 OpenAQ-hours + 240 SYNTHETIC_SAMPLE)
+docker exec -it aq-clickhouse clickhouse-client --query "
+SELECT source, count(), uniqExact(location_id), uniqExact(sensor_id)
+FROM air_quality.measurements GROUP BY source ORDER BY source"
+
+# Đối soát một phân vùng giữa hai hệ (kỳ vọng cùng trả về 24)
+docker exec -it aq-cassandra cqlsh -e "SELECT COUNT(*) FROM air_quality.measurements_by_station_day WHERE location_id=4946812 AND parameter='pm25' AND measurement_date='2026-10-02'"
+docker exec -it aq-clickhouse clickhouse-client --query "SELECT count() FROM air_quality.measurements WHERE source='OpenAQ-hours' AND location_id=4946812 AND parameter='pm25' AND toDate(measured_at)='2026-10-02'"
 ```
-Cassandra: truy vấn một partition cụ thể, không chạy COUNT(*) toàn bảng làm benchmark:
+
+Không dùng `COUNT(*)` toàn bảng trên Cassandra; luôn truy vấn theo đủ partition key và không dùng `ALLOW FILTERING`.
+
+## 7. Benchmark
+
+`scripts/benchmark.py` đo độ trễ phía ứng dụng (`time.perf_counter()`), chạy tuần tự, không warm-up:
+
+- **W1 – Cassandra:** `SELECT measured_at, value ... WHERE location_id=? AND parameter=? AND measurement_date=? LIMIT 500`
+- **W2 – ClickHouse:** tổng hợp `count/avg/max` theo `city, parameter, ngày` cho dữ liệu `OpenAQ-hours` của cùng ngày.
+
+Hai lần đo trong báo cáo:
+
 ```bash
-docker exec -it aq-cassandra cqlsh -e "SELECT measured_at,value FROM air_quality.measurements_by_station_day WHERE location_id=1001 AND parameter='pm25' LIMIT 10"
+# Lần đo A
+python scripts/benchmark.py --location-id 4946813 --parameter no2 --date 2026-08-19 --repeats 20
+# Lần đo B
+python scripts/benchmark.py --location-id 4946812 --parameter pm25 --date 2026-10-02 --repeats 50 \
+  --out results/benchmark_openaq.csv
 ```
 
-## H. Benchmark
-Chọn ngày thực sự có dữ liệu trong CSV:
+Kết quả (median): A – Cassandra 1,66 ms, ClickHouse 3,67 ms; B – Cassandra 0,90 ms, ClickHouse 3,84 ms (MacBook Pro M1 Max, Docker Desktop, mỗi hệ 1 node).
+
+> Hai truy vấn đại diện **hai workload khác nhau**; không dùng để kết luận CSDL nào nhanh hơn. Tệp kết quả không tự lưu tham số `--location-id/--parameter/--date` – hãy ghi lại lệnh đã chạy.
+
+Vẽ biểu đồ median (cần pandas, matplotlib):
+
 ```bash
-python scripts/benchmark.py --location-id 1001 --parameter pm25 --date 2026-10-11 --repeats 10
+python scripts/plot_results.py         # đọc results/benchmark.csv → results/latency_chart.png
 ```
-Kết quả lưu ở `results/benchmark.csv`. Thay ngày, location ID, parameter theo dữ liệu của bạn.
-- Cassandra: point/time-window lookup bằng partition key.
-- ClickHouse: aggregation theo thành phố/chất ô nhiễm/ngày.
 
-Hai truy vấn đại diện hai workload khác nhau; không diễn giải thời gian đo là phép so sánh công bằng trực tiếp. Báo cáo nên trình bày số liệu kèm workload, cấu hình máy, dataset và số lần chạy. Benchmark bổ sung cùng logic nghiệp vụ/end-to-end có thể làm sau khi bản cơ bản chạy được.
+## 8. Dừng hệ thống
 
-## I. Các điểm kỹ thuật cần trình bày trong báo cáo
-- Cassandra: partition key `(location_id, parameter, measurement_date)` và clustering theo thời gian; thiết kế theo access pattern.
-- ClickHouse: MergeTree, partition theo tháng và sorting key phục vụ lọc/phân tích chuỗi thời gian.
-- Kiến trúc dual-write: một sự kiện được gửi đến hai DB, nhưng không có transaction nguyên tử giữa chúng; cần nhận diện trường hợp một DB ghi thành công còn DB kia thất bại. Nếu còn thời gian, bổ sung retry và đối soát.
-- Bản Compose mặc định chỉ chạy một node mỗi DB, Cassandra replication factor = 1; không tuyên bố đã chứng minh HA, fault tolerance hay distributed scaling.
-- Ghi rõ phần dữ liệu OpenAQ và dữ liệu mô phỏng, tránh trộn hai nguồn mà không gắn nhãn.
+```bash
+docker compose stop        # dừng, giữ dữ liệu
+docker compose down        # xóa container, GIỮ volume dữ liệu
+# docker compose down -v   # ⚠️ XÓA LUÔN dữ liệu của hai CSDL
+```
 
-## J. Kế hoạch đến 08/11/2026
-31/10: dựng DB, kiểm tra API và dữ liệu.
-01/11: chốt dataset, làm sạch và kiểm tra chất lượng.
-02/11: chốt schema, nạp dữ liệu.
-03/11: hoàn thiện truy vấn vận hành + analytics.
-04–05/11: benchmark và lưu số liệu.
-06/11: phân tích, biểu đồ.
-07/11: hoàn thiện báo cáo, demo.
-08/11: kiểm tra và nộp.
+## Giới hạn đã biết
 
-## Tài liệu chính thức
+- Mỗi CSDL chạy 1 node, Cassandra RF = 1: không đánh giá HA, chịu lỗi hay mở rộng ngang.
+- Ghi kép không nguyên tử; chạy lại ingestion gây trùng lặp ở ClickHouse.
+- Dữ liệu nhỏ (~23 nghìn dòng), độ phủ không đều (một cảm biến NO₂ chỉ 17 bản ghi); trường `city` chưa chuẩn hóa.
+- Benchmark tuần tự, không tải đồng thời; độ trễ ở quy mô này chủ yếu là chi phí cố định mỗi lời gọi.
+
+## Tài liệu
+
 - OpenAQ API: https://docs.openaq.org/
-- OpenAQ API key: https://docs.openaq.org/using-the-api/api-key
-- OpenAQ rate limits: https://docs.openaq.org/using-the-api/rate-limits
-- OpenAQ measurements: https://docs.openaq.org/resources/measurements
-- Cassandra: https://cassandra.apache.org/doc/
+- Apache Cassandra: https://cassandra.apache.org/doc/
 - ClickHouse: https://clickhouse.com/docs/

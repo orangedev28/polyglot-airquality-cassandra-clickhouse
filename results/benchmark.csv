@@ -1,0 +1,41 @@
+database,workload,run,latency_ms
+Cassandra,Tra cứu theo trạm + chỉ số + ngày,1,8.136
+Cassandra,Tra cứu theo trạm + chỉ số + ngày,2,2.062
+Cassandra,Tra cứu theo trạm + chỉ số + ngày,3,1.727
+Cassandra,Tra cứu theo trạm + chỉ số + ngày,4,1.625
+Cassandra,Tra cứu theo trạm + chỉ số + ngày,5,1.677
+Cassandra,Tra cứu theo trạm + chỉ số + ngày,6,1.849
+Cassandra,Tra cứu theo trạm + chỉ số + ngày,7,1.711
+Cassandra,Tra cứu theo trạm + chỉ số + ngày,8,1.577
+Cassandra,Tra cứu theo trạm + chỉ số + ngày,9,1.503
+Cassandra,Tra cứu theo trạm + chỉ số + ngày,10,1.546
+Cassandra,Tra cứu theo trạm + chỉ số + ngày,11,1.341
+Cassandra,Tra cứu theo trạm + chỉ số + ngày,12,1.6
+Cassandra,Tra cứu theo trạm + chỉ số + ngày,13,1.696
+Cassandra,Tra cứu theo trạm + chỉ số + ngày,14,1.65
+Cassandra,Tra cứu theo trạm + chỉ số + ngày,15,1.737
+Cassandra,Tra cứu theo trạm + chỉ số + ngày,16,1.754
+Cassandra,Tra cứu theo trạm + chỉ số + ngày,17,1.588
+Cassandra,Tra cứu theo trạm + chỉ số + ngày,18,1.808
+Cassandra,Tra cứu theo trạm + chỉ số + ngày,19,1.417
+Cassandra,Tra cứu theo trạm + chỉ số + ngày,20,1.603
+ClickHouse,Tổng hợp theo thành phố + chỉ số + ngày,1,10.003
+ClickHouse,Tổng hợp theo thành phố + chỉ số + ngày,2,4.591
+ClickHouse,Tổng hợp theo thành phố + chỉ số + ngày,3,4.257
+ClickHouse,Tổng hợp theo thành phố + chỉ số + ngày,4,16.101
+ClickHouse,Tổng hợp theo thành phố + chỉ số + ngày,5,3.82
+ClickHouse,Tổng hợp theo thành phố + chỉ số + ngày,6,3.661
+ClickHouse,Tổng hợp theo thành phố + chỉ số + ngày,7,3.535
+ClickHouse,Tổng hợp theo thành phố + chỉ số + ngày,8,3.414
+ClickHouse,Tổng hợp theo thành phố + chỉ số + ngày,9,3.75
+ClickHouse,Tổng hợp theo thành phố + chỉ số + ngày,10,3.548
+ClickHouse,Tổng hợp theo thành phố + chỉ số + ngày,11,3.675
+ClickHouse,Tổng hợp theo thành phố + chỉ số + ngày,12,4.165
+ClickHouse,Tổng hợp theo thành phố + chỉ số + ngày,13,3.664
+ClickHouse,Tổng hợp theo thành phố + chỉ số + ngày,14,3.417
+ClickHouse,Tổng hợp theo thành phố + chỉ số + ngày,15,3.556
+ClickHouse,Tổng hợp theo thành phố + chỉ số + ngày,16,3.653
+ClickHouse,Tổng hợp theo thành phố + chỉ số + ngày,17,3.679
+ClickHouse,Tổng hợp theo thành phố + chỉ số + ngày,18,3.668
+ClickHouse,Tổng hợp theo thành phố + chỉ số + ngày,19,3.462
+ClickHouse,Tổng hợp theo thành phố + chỉ số + ngày,20,3.648

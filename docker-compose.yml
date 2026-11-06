@@ -1,0 +1,36 @@
+services:
+  cassandra:
+    image: cassandra:5.0
+    container_name: aq-cassandra
+    environment:
+      CASSANDRA_CLUSTER_NAME: AirQualityCluster
+      CASSANDRA_DC: datacenter1
+      CASSANDRA_RACK: rack1
+      MAX_HEAP_SIZE: 1G
+      HEAP_NEWSIZE: 256M
+    ports: ["9042:9042"]
+    volumes: ["cassandra_data:/var/lib/cassandra"]
+    healthcheck:
+      test: ["CMD-SHELL", "cqlsh -e 'DESCRIBE KEYSPACES' >/dev/null 2>&1"]
+      interval: 20s
+      timeout: 10s
+      retries: 20
+      start_period: 60s
+  clickhouse:
+    image: clickhouse/clickhouse-server:25.8
+    container_name: aq-clickhouse
+    environment:
+      CLICKHOUSE_DB: air_quality
+      CLICKHOUSE_USER: default
+      CLICKHOUSE_PASSWORD: ""
+      CLICKHOUSE_DEFAULT_ACCESS_MANAGEMENT: 1
+    ports: ["8123:8123", "9000:9000"]
+    volumes: ["clickhouse_data:/var/lib/clickhouse"]
+    healthcheck:
+      test: ["CMD", "clickhouse-client", "--query", "SELECT 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 15
+volumes:
+  cassandra_data:
+  clickhouse_data:

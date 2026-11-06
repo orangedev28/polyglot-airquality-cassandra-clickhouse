@@ -2,6 +2,8 @@ requests==2.32.3
 python-dotenv==1.0.1
 cassandra-driver==3.29.2
 clickhouse-connect==0.8.18
+# Ứng dụng web local (app/web.py)
+flask==3.1.2
 # Vẽ biểu đồ (scripts/plot_results.py) – phiên bản đã dùng thực tế trong .venv
 pandas==2.3.3
 numpy==2.0.2

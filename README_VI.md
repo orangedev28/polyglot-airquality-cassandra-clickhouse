@@ -20,6 +20,8 @@ scripts/fetch_openaq.py ──► data/openaq_measurements.csv
 scripts/ingest_csv.py  (DatabaseWriter, ghi theo lô)
         ├──► Cassandra   air_quality.measurements_by_station_day   (vận hành)
         └──► ClickHouse  air_quality.measurements                  (phân tích)
+
+app/web.py (Flask, chỉ đọc) ──► tab Tra cứu (Cassandra) · Phân tích (ClickHouse) · Đối soát
 ```
 
 Ghi kép **không phải** giao dịch phân tán nguyên tử: mỗi lô ghi Cassandra trước, ClickHouse sau.
@@ -143,7 +145,22 @@ Vẽ biểu đồ median (cần pandas, matplotlib):
 python scripts/plot_results.py         # đọc results/benchmark.csv → results/latency_chart.png
 ```
 
-## 8. Dừng hệ thống
+## 8. Ứng dụng web local (chỉ đọc)
+
+```bash
+pip install -r requirements.txt        # có flask
+python app/web.py                      # mở http://127.0.0.1:5050
+```
+
+Ba tab:
+
+1. **Tra cứu trạm – Cassandra:** chọn trạm, chỉ số, ngày (UTC) → đọc đúng một partition, hiện bảng, biểu đồ theo giờ và độ trễ truy vấn.
+2. **Phân tích – ClickHouse:** chọn khoảng ngày → tổng hợp theo thành phố × chỉ số và biểu đồ trung bình theo ngày (luôn lọc `source = 'OpenAQ-hours'`).
+3. **Đối soát hai hệ:** đếm cùng một partition ở Cassandra và ClickHouse, báo khớp hoặc lệch.
+
+Ứng dụng **không ghi** dữ liệu. Dùng cổng 5050 vì trên macOS cổng 5000 thường bị AirPlay Receiver chiếm (đổi bằng biến môi trường `WEB_PORT`). Chart.js 4.4.1 (giấy phép MIT) được kèm trong `app/static/` nên chạy được không cần internet. Độ trễ hiển thị là thời gian đo ở phía ứng dụng cho một lần gọi, không thay thế benchmark ở mục 7.
+
+## 9. Dừng hệ thống
 
 ```bash
 docker compose stop        # dừng, giữ dữ liệu

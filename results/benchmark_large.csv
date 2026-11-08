@@ -1,0 +1,101 @@
+database,workload,run,latency_ms
+Cassandra,Tra cứu theo trạm + chỉ số + ngày,1,1.797
+Cassandra,Tra cứu theo trạm + chỉ số + ngày,2,1.082
+Cassandra,Tra cứu theo trạm + chỉ số + ngày,3,1.171
+Cassandra,Tra cứu theo trạm + chỉ số + ngày,4,1.415
+Cassandra,Tra cứu theo trạm + chỉ số + ngày,5,1.536
+Cassandra,Tra cứu theo trạm + chỉ số + ngày,6,2.003
+Cassandra,Tra cứu theo trạm + chỉ số + ngày,7,1.164
+Cassandra,Tra cứu theo trạm + chỉ số + ngày,8,1.534
+Cassandra,Tra cứu theo trạm + chỉ số + ngày,9,1.289
+Cassandra,Tra cứu theo trạm + chỉ số + ngày,10,1.175
+Cassandra,Tra cứu theo trạm + chỉ số + ngày,11,1.588
+Cassandra,Tra cứu theo trạm + chỉ số + ngày,12,1.706
+Cassandra,Tra cứu theo trạm + chỉ số + ngày,13,1.163
+Cassandra,Tra cứu theo trạm + chỉ số + ngày,14,1.076
+Cassandra,Tra cứu theo trạm + chỉ số + ngày,15,1.094
+Cassandra,Tra cứu theo trạm + chỉ số + ngày,16,1.497
+Cassandra,Tra cứu theo trạm + chỉ số + ngày,17,1.203
+Cassandra,Tra cứu theo trạm + chỉ số + ngày,18,1.13
+Cassandra,Tra cứu theo trạm + chỉ số + ngày,19,1.021
+Cassandra,Tra cứu theo trạm + chỉ số + ngày,20,1.116
+Cassandra,Tra cứu theo trạm + chỉ số + ngày,21,1.201
+Cassandra,Tra cứu theo trạm + chỉ số + ngày,22,1.18
+Cassandra,Tra cứu theo trạm + chỉ số + ngày,23,1.288
+Cassandra,Tra cứu theo trạm + chỉ số + ngày,24,1.428
+Cassandra,Tra cứu theo trạm + chỉ số + ngày,25,1.241
+Cassandra,Tra cứu theo trạm + chỉ số + ngày,26,0.912
+Cassandra,Tra cứu theo trạm + chỉ số + ngày,27,1.036
+Cassandra,Tra cứu theo trạm + chỉ số + ngày,28,1.066
+Cassandra,Tra cứu theo trạm + chỉ số + ngày,29,1.174
+Cassandra,Tra cứu theo trạm + chỉ số + ngày,30,1.217
+Cassandra,Tra cứu theo trạm + chỉ số + ngày,31,1.051
+Cassandra,Tra cứu theo trạm + chỉ số + ngày,32,1.396
+Cassandra,Tra cứu theo trạm + chỉ số + ngày,33,1.171
+Cassandra,Tra cứu theo trạm + chỉ số + ngày,34,1.119
+Cassandra,Tra cứu theo trạm + chỉ số + ngày,35,1.28
+Cassandra,Tra cứu theo trạm + chỉ số + ngày,36,1.303
+Cassandra,Tra cứu theo trạm + chỉ số + ngày,37,1.166
+Cassandra,Tra cứu theo trạm + chỉ số + ngày,38,1.302
+Cassandra,Tra cứu theo trạm + chỉ số + ngày,39,1.345
+Cassandra,Tra cứu theo trạm + chỉ số + ngày,40,1.203
+Cassandra,Tra cứu theo trạm + chỉ số + ngày,41,1.238
+Cassandra,Tra cứu theo trạm + chỉ số + ngày,42,1.243
+Cassandra,Tra cứu theo trạm + chỉ số + ngày,43,1.229
+Cassandra,Tra cứu theo trạm + chỉ số + ngày,44,1.229
+Cassandra,Tra cứu theo trạm + chỉ số + ngày,45,1.364
+Cassandra,Tra cứu theo trạm + chỉ số + ngày,46,1.436
+Cassandra,Tra cứu theo trạm + chỉ số + ngày,47,1.115
+Cassandra,Tra cứu theo trạm + chỉ số + ngày,48,1.285
+Cassandra,Tra cứu theo trạm + chỉ số + ngày,49,1.154
+Cassandra,Tra cứu theo trạm + chỉ số + ngày,50,1.246
+ClickHouse,Tổng hợp theo thành phố + chỉ số + ngày,1,6.696
+ClickHouse,Tổng hợp theo thành phố + chỉ số + ngày,2,6.021
+ClickHouse,Tổng hợp theo thành phố + chỉ số + ngày,3,6.262
+ClickHouse,Tổng hợp theo thành phố + chỉ số + ngày,4,17.371
+ClickHouse,Tổng hợp theo thành phố + chỉ số + ngày,5,5.307
+ClickHouse,Tổng hợp theo thành phố + chỉ số + ngày,6,5.087
+ClickHouse,Tổng hợp theo thành phố + chỉ số + ngày,7,4.703
+ClickHouse,Tổng hợp theo thành phố + chỉ số + ngày,8,4.868
+ClickHouse,Tổng hợp theo thành phố + chỉ số + ngày,9,5.292
+ClickHouse,Tổng hợp theo thành phố + chỉ số + ngày,10,4.9
+ClickHouse,Tổng hợp theo thành phố + chỉ số + ngày,11,4.914
+ClickHouse,Tổng hợp theo thành phố + chỉ số + ngày,12,4.559
+ClickHouse,Tổng hợp theo thành phố + chỉ số + ngày,13,4.604
+ClickHouse,Tổng hợp theo thành phố + chỉ số + ngày,14,4.747
+ClickHouse,Tổng hợp theo thành phố + chỉ số + ngày,15,4.453
+ClickHouse,Tổng hợp theo thành phố + chỉ số + ngày,16,4.741
+ClickHouse,Tổng hợp theo thành phố + chỉ số + ngày,17,4.384
+ClickHouse,Tổng hợp theo thành phố + chỉ số + ngày,18,4.571
+ClickHouse,Tổng hợp theo thành phố + chỉ số + ngày,19,4.62
+ClickHouse,Tổng hợp theo thành phố + chỉ số + ngày,20,4.532
+ClickHouse,Tổng hợp theo thành phố + chỉ số + ngày,21,4.678
+ClickHouse,Tổng hợp theo thành phố + chỉ số + ngày,22,4.39
+ClickHouse,Tổng hợp theo thành phố + chỉ số + ngày,23,4.39
+ClickHouse,Tổng hợp theo thành phố + chỉ số + ngày,24,4.418
+ClickHouse,Tổng hợp theo thành phố + chỉ số + ngày,25,4.626
+ClickHouse,Tổng hợp theo thành phố + chỉ số + ngày,26,4.49
+ClickHouse,Tổng hợp theo thành phố + chỉ số + ngày,27,4.649
+ClickHouse,Tổng hợp theo thành phố + chỉ số + ngày,28,4.391
+ClickHouse,Tổng hợp theo thành phố + chỉ số + ngày,29,4.587
+ClickHouse,Tổng hợp theo thành phố + chỉ số + ngày,30,4.483
+ClickHouse,Tổng hợp theo thành phố + chỉ số + ngày,31,4.32
+ClickHouse,Tổng hợp theo thành phố + chỉ số + ngày,32,4.634
+ClickHouse,Tổng hợp theo thành phố + chỉ số + ngày,33,4.623
+ClickHouse,Tổng hợp theo thành phố + chỉ số + ngày,34,4.662
+ClickHouse,Tổng hợp theo thành phố + chỉ số + ngày,35,4.573
+ClickHouse,Tổng hợp theo thành phố + chỉ số + ngày,36,4.469
+ClickHouse,Tổng hợp theo thành phố + chỉ số + ngày,37,4.452
+ClickHouse,Tổng hợp theo thành phố + chỉ số + ngày,38,4.762
+ClickHouse,Tổng hợp theo thành phố + chỉ số + ngày,39,5.643
+ClickHouse,Tổng hợp theo thành phố + chỉ số + ngày,40,5.273
+ClickHouse,Tổng hợp theo thành phố + chỉ số + ngày,41,5.19
+ClickHouse,Tổng hợp theo thành phố + chỉ số + ngày,42,5.666
+ClickHouse,Tổng hợp theo thành phố + chỉ số + ngày,43,5.472
+ClickHouse,Tổng hợp theo thành phố + chỉ số + ngày,44,6.688
+ClickHouse,Tổng hợp theo thành phố + chỉ số + ngày,45,5.588
+ClickHouse,Tổng hợp theo thành phố + chỉ số + ngày,46,6.326
+ClickHouse,Tổng hợp theo thành phố + chỉ số + ngày,47,6.165
+ClickHouse,Tổng hợp theo thành phố + chỉ số + ngày,48,6.954
+ClickHouse,Tổng hợp theo thành phố + chỉ số + ngày,49,5.48
+ClickHouse,Tổng hợp theo thành phố + chỉ số + ngày,50,6.12

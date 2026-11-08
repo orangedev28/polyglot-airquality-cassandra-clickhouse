@@ -1,0 +1,125 @@
+===== 1. Bật Docker và chờ sẵn sàng (07:04:16) =====
+ Container aq-clickhouse Running 
+ Container aq-cassandra Running 
+aq-cassandra: healthy
+aq-clickhouse: healthy
+Cassandra đã sẵn sàng.
+
+===== 2. Số dòng hiện có (trước khi xóa) =====
+   ┌─source───────────┬─count()─┐
+1. │ OpenAQ-hours     │   23022 │
+2. │ SYNTHETIC_SAMPLE │     240 │
+   └──────────────────┴─────────┘
+File sẽ nạp: data/openaq_measurements_large.csv (504647 dòng kể cả tiêu đề)
+
+XÓA dữ liệu cũ ở CẢ HAI bảng và nạp lại? Gõ yes rồi Enter: 
+===== 3. Xoá dữ liệu cũ (TRUNCATE, giữ lược đồ và volume) =====
+ClickHouse còn	0
+
+===== 4. Nạp dữ liệu (07:04:54) =====
+Hoàn tất 240 dòng trong 0.06s; tốc độ ghi kép trung bình 4098.4 rows/s
+Đã nạp 50000 dòng
+Đã nạp 100000 dòng
+Đã nạp 150000 dòng
+Đã nạp 200000 dòng
+Đã nạp 250000 dòng
+Đã nạp 300000 dòng
+Đã nạp 350000 dòng
+Đã nạp 400000 dòng
+Đã nạp 450000 dòng
+Đã nạp 500000 dòng
+Hoàn tất 504646 dòng trong 59.90s; tốc độ ghi kép trung bình 8425.0 rows/s
+Nạp xong lúc 07:05:55
+
+===== 5. Đối soát =====
+   ┌─source───────────┬───rows─┐
+1. │ OpenAQ-hours     │ 504646 │
+2. │ SYNTHETIC_SAMPLE │    240 │
+   └──────────────────┴────────┘
+Cassandra COUNT(*) toàn bảng (có thể mất 10–60 giây):
+
+ count
+--------
+ 504886
+
+(1 rows)
+
+Warnings :
+Aggregation query used without partition key
+
+Partition (4946812, pm25, 2026-10-02):
+
+ count
+-------
+    24
+
+(1 rows)
+ClickHouse	24
+
+===== 6. Benchmark (cùng tham số lần B) =====
+Cassandra: median 1.22 ms
+ClickHouse: median 4.72 ms
+Kết quả: results/benchmark_large.csv
+Hai truy vấn phản ánh workload khác nhau, không dùng để tuyên bố DB nào nhanh hơn toàn diện.
+Cassandra Tra cứu theo trạm + chỉ số + ngày: n=50 | lần 1=1.80 | min=0.91 | trung vị=1.22 | trung bình=1.27 | p95=1.71 | max=2.00 ms
+ClickHouse Tổng hợp theo thành phố + chỉ số + ngày: n=50 | lần 1=6.70 | min=4.32 | trung vị=4.72 | trung bình=5.30 | p95=6.70 | max=17.37 ms
+
+===== 7. Tài nguyên =====
+		SSTable count: 4
+		Old SSTable count: 0
+		Space used (total): 12064210
+		Number of partitions (estimate): 23068
+		Compacted partition maximum bytes: 5722
+		Compacted partition mean bytes: 2812
+   ┌─active_parts─┬───rows─┬─compressed─┬─uncompressed─┬─ratio─┬─partitions─┐
+1. │           32 │ 504886 │ 2.68 MiB   │ 42.17 MiB    │  15.7 │         13 │
+   └──────────────┴────────┴────────────┴──────────────┴───────┴────────────┘
+    ┌─name─────────┬─c──────┬─u──────┬───r─┐
+ 1. │ location_id  │ 0.00 B │ 0.00 B │ nan │
+ 2. │ station_name │ 0.00 B │ 0.00 B │ nan │
+ 3. │ sensor_id    │ 0.00 B │ 0.00 B │ nan │
+ 4. │ parameter    │ 0.00 B │ 0.00 B │ nan │
+ 5. │ unit         │ 0.00 B │ 0.00 B │ nan │
+ 6. │ measured_at  │ 0.00 B │ 0.00 B │ nan │
+ 7. │ value        │ 0.00 B │ 0.00 B │ nan │
+ 8. │ latitude     │ 0.00 B │ 0.00 B │ nan │
+ 9. │ longitude    │ 0.00 B │ 0.00 B │ nan │
+10. │ city         │ 0.00 B │ 0.00 B │ nan │
+11. │ source       │ 0.00 B │ 0.00 B │ nan │
+12. │ ingested_at  │ 0.00 B │ 0.00 B │ nan │
+    └──────────────┴────────┴────────┴─────┘
+aq-cassandra: RAM 2.229GiB / 7.748GiB | CPU 3.73%
+aq-clickhouse: RAM 2.871GiB / 7.748GiB | CPU 14.69%
+cassandra                      5.0              ae4cc2e4b62a   10 days ago    567MB     0B            567.3MB       1
+clickhouse/clickhouse-server   25.8             0152dd511bef   2 months ago   983MB     32B           983.4MB       1
+34e71857d62b   cassandra:5.0                       "docker-entrypoint.s…"   1               2.27MB    15 minutes ago   Up 15 minutes (healthy)   aq-cassandra
+900c94798b1f   clickhouse/clickhouse-server:25.8   "/entrypoint.sh"         1               12.6MB    15 minutes ago   Up 15 minutes (healthy)   aq-clickhouse
+VOLUME NAME                                                        LINKS     SIZE
+cassandra_clickhouse_airquality_starter_cassandra_data             1         147.1MB
+cassandra_clickhouse_airquality_starter_clickhouse_data            1         299.3MB
+-rw-r--r--@ 1 khangbhc  staff    64M Nov  8 06:48 data/openaq_measurements_large.csv
+
+===== 8. Phân tích =====
+    ┌─city─────┬─parameter─┬───rows─┬───avg─┬───min─┬───max─┐
+ 1. │ Bangkok  │ pm25      │   5154 │ 15.38 │   4.7 │  36.8 │
+ 2. │ Cambodia │ pm25      │  49684 │ 23.91 │     0 │   446 │
+ 3. │ Hanoi    │ co        │  10378 │  1424 │     0 │ 10700 │
+ 4. │ Hanoi    │ no2       │  16731 │ 37.53 │     0 │  1640 │
+ 5. │ Hanoi    │ o3        │  25899 │ 29.11 │  -658 │   647 │
+ 6. │ Hanoi    │ pm10      │  26031 │ 68.98 │     0 │   787 │
+ 7. │ Hanoi    │ pm25      │  26252 │ 40.94 │     0 │   682 │
+ 8. │ Hanoi    │ so2       │  23567 │  9.75 │ -0.24 │   175 │
+ 9. │ Thailand │ pm25      │ 302637 │  19.8 │     0 │   913 │
+10. │ Vietnam  │ pm25      │  18313 │  42.2 │     0 │   326 │
+    └──────────┴───────────┴────────┴───────┴───────┴───────┘
+0.011
+Đã lưu results/pm25_monthly.csv (60 dòng)
+   ┌─city─────┬─station_days─┬─over_qcvn_50─┬─over_who_15─┬─pct_over_qcvn─┐
+1. │ Bangkok  │          220 │            0 │         102 │             0 │
+2. │ Cambodia │         2391 │          162 │        1471 │           6.8 │
+3. │ Hanoi    │         1279 │          320 │        1208 │            25 │
+4. │ Thailand │        12902 │          685 │        5827 │           5.3 │
+5. │ Vietnam  │          786 │          181 │         762 │            23 │
+   └──────────┴──────────────┴──────────────┴─────────────┴───────────────┘
+
+===== XONG 07:06:23 — gửi file results/stage3.log =====

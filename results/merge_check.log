@@ -1,0 +1,38 @@
+VN: 147171 dòng | 42 cảm biến | 17 trạm
+TH: 307791 dòng | 58 cảm biến | 58 trạm
+KH: 49684 dòng | 16 cảm biến | 16 trạm
+
+Số dòng: 504646 | File MB: 67.2
+Trạm: 91 | Cảm biến: 116
+Thời gian: 2025-11-07 22:00:00+00:00 -> 2026-11-07 21:00:00+00:00
+Giá trị thiếu: 0 | Giá trị âm: 127
+Khóa trùng: 0
+Nguồn: {'OpenAQ-hours': 504646}
+Số partition: 23000 | Dòng/partition lớn nhất: 24 | Số partition > 24 dòng: 0
+
+Đơn vị theo chỉ số:
+parameter  unit 
+co         µg/m³     10378
+no2        µg/m³     16731
+o3         µg/m³     25899
+pm10       µg/m³     26031
+pm25       µg/m³    402040
+so2        µg/m³     23567
+
+Dòng theo nước × chỉ số:
+parameter     co    no2     o3   pm10    pm25    so2
+country                                             
+KH             0      0      0      0   49684      0
+TH             0      0      0      0  307791      0
+VN         10378  16731  25899  26031   44565  23567
+
+15 city nhiều dòng nhất:
+city
+Thailand    302637
+Hanoi       128858
+Cambodia     49684
+Vietnam      18313
+Bangkok       5154
+
+Số city khác nhau: 5
+Số tháng (phân vùng ClickHouse): 13

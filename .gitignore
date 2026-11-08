@@ -2,3 +2,5 @@
 .venv/
 __pycache__/
 *.pyc
+data/large_*.csv
+data/openaq_measurements_large.csv

@@ -1,0 +1,112 @@
+===== VN =====
+/Users/khangbhc/Projects/Cassandra_ClickHouse_AirQuality_Starter/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+Hạn mức còn lại trong phút này: 59
+
+Tổng location VN: 62 | còn dữ liệu trong 365 ngày gần nhất: 17
+Trạm tham chiếu (isMonitor) / cảm biến giá rẻ: 5 / 12
+Theo nhà cung cấp: {'HabitatMap': 8, 'Hanoi Air Quality Monitoring Network': 5, 'AirGradient': 4}
+Theo locality (city): {'(trống → tên quốc gia)': 12, 'Hanoi': 5}
+Cảm biến thuộc 6 chỉ số trong các location còn hoạt động: 43
+Theo chỉ số: {'co': 5, 'no2': 5, 'o3': 5, 'pm10': 6, 'pm25': 17, 'so2': 5}
+
+15 location cập nhật gần nhất:
+    4946812 | Công viên Nhân Chính - Khuất Duy | Hanoi          | 6 cảm biến | 2025-07-03 → 2026-11-07
+    4946813 | Số 1 đường Giải Phóng - phường B | Hanoi          | 6 cảm biến | 2025-07-03 → 2026-11-07
+    3276359 | CMT8                             | -              | 2 cảm biến | 2024-11-19 → 2026-11-07
+    6123215 | Dragon                           | -              | 1 cảm biến | 2025-11-08 → 2026-11-07
+    2161292 | Số 46, phố Lưu Quang Vũ          | Hanoi          | 6 cảm biến | 2024-01-29 → 2026-11-06
+    2161306 | Minh Khai - Bắc Từ Liêm          | Hanoi          | 6 cảm biến | 2024-01-29 → 2026-11-06
+    6531525 | E5nn                             | -              | 1 cảm biến | 2026-09-09 → 2026-09-10
+    6529522 | 2E5 nn                           | -              | 1 cảm biến | 2026-09-08 → 2026-09-08
+    6529523 | Phong nuoc nn                    | -              | 1 cảm biến | 2026-09-08 → 2026-09-08
+    6497944 | Ngoai phong                      | -              | 1 cảm biến | 2026-08-20 → 2026-08-22
+    6477970 | Ngoai nha                        | -              | 1 cảm biến | 2026-08-07 → 2026-08-19
+    6477971 | Ngoai nha                        | -              | 1 cảm biến | 2026-08-07 → 2026-08-07
+    6475641 | Lầu 2 VP ngoài nhà               | -              | 1 cảm biến | 2026-08-05 → 2026-08-06
+    6473874 | Ngoai phong                      | -              | 1 cảm biến | 2026-08-04 → 2026-08-05
+    4946811 | 556 Nguyễn Văn Cừ                | Hanoi          | 6 cảm biến | 2025-07-03 → 2026-07-15
+===== TH =====
+/Users/khangbhc/Projects/Cassandra_ClickHouse_AirQuality_Starter/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+Hạn mức còn lại trong phút này: 58
+
+Tổng location TH: 655 | còn dữ liệu trong 365 ngày gần nhất: 463
+Trạm tham chiếu (isMonitor) / cảm biến giá rẻ: 206 / 257
+Theo nhà cung cấp: {'AirGradient': 251, 'Air4Thai': 206, 'N/A': 3, 'Clarity': 3}
+Theo locality (city): {'(trống → tên quốc gia)': 257, 'Bangkok': 80, 'Rayong': 7, 'Chiang Mai': 5, 'Samut Prakan': 4, 'Chiang Rai': 4, 'Lampang': 4, 'Kanchanaburi': 4, 'Saraburi': 4, 'Mae Hong Son': 4}
+Cảm biến thuộc 6 chỉ số trong các location còn hoạt động: 1403
+Theo chỉ số: {'no2': 120, 'o3': 117, 'pm10': 355, 'pm25': 604, 'so2': 110, 'co': 97}
+
+15 location cập nhật gần nhất:
+        135 | Prabadang Rehabiltation Center   | Samut Prakan   | 5 cảm biến | 2022-10-04 → 2026-11-07
+        701 | Sukhothai Thammathirat Open Univ | Nonthaburi     | 6 cảm biến | 2016-01-30 → 2026-11-07
+        717 | Pluakdaeng District Health Offic | Rayong         | 5 cảm biến | 2016-01-30 → 2026-11-07
+        906 | Residence for Dept. of Mineral R | Samut Prakan   | 6 cảm biến | 2016-01-30 → 2026-11-07
+       2167 | Highway District                 | Samut Sakhon   | 6 cảm biến | 2016-02-11 → 2026-11-07
+       2328 | Natural Resources and Environmen | Chiang Rai     | 6 cảm biến | 2016-01-30 → 2026-11-07
+       2352 | Thonburi Power Sub-Station       | Bangkok        | 4 cảm biến | 2022-10-04 → 2026-11-07
+       2375 | Bodindecha Sing Singhaseni Schoo | Bangkok        | 5 cảm biến | 2016-01-30 → 2026-11-07
+       2376 | Samut Sakhon Wittayalai School   | Samut Sakhon   | 5 cảm biến | 2016-01-30 → 2026-11-07
+       5545 | Chulalongkorn Hospital           | Bangkok        | 6 cảm biến | 2016-08-18 → 2026-11-07
+       7747 | Hydrogeological Group Water Reso | Khon Kaen      | 6 cảm biến | 2016-01-30 → 2026-11-07
+       7840 | Laem Chabang Municipal Stadium   | Chon buri      | 5 cảm biến | 2016-01-30 → 2026-11-07
+     225567 | Maesai Health Office             | Chiang Rai     | 8 cảm biến | 2021-04-29 → 2026-11-07
+     225568 | Bang Khen District Office, Bangk | Bangkok        | 2 cảm biến | 2021-04-29 → 2026-11-07
+     225571 | Bang Khun Thian District Office, | Bangkok        | 2 cảm biến | 2021-04-29 → 2026-11-07
+===== KH =====
+/Users/khangbhc/Projects/Cassandra_ClickHouse_AirQuality_Starter/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+Hạn mức còn lại trong phút này: 57
+
+Tổng location KH: 27 | còn dữ liệu trong 365 ngày gần nhất: 16
+Trạm tham chiếu (isMonitor) / cảm biến giá rẻ: 0 / 16
+Theo nhà cung cấp: {'AirGradient': 16}
+Theo locality (city): {'(trống → tên quốc gia)': 16}
+Cảm biến thuộc 6 chỉ số trong các location còn hoạt động: 16
+Theo chỉ số: {'pm25': 16}
+
+15 location cập nhật gần nhất:
+    3400984 | Kok Roka                         | -              | 1 cảm biến | 2025-04-10 → 2026-11-07
+    3405765 | Civil Engineering, NPIC          | -              | 1 cảm biến | 2025-04-11 → 2026-11-07
+    6188057 | Mondul 2                         | -              | 1 cảm biến | 2026-01-03 → 2026-11-07
+    6207952 | Siem Reap                        | -              | 1 cảm biến | 2026-01-20 → 2026-11-07
+    5755932 | AUPP Liger Leadership Academy    | -              | 1 cảm biến | 2025-09-16 → 2026-11-07
+    4322233 | បន្ទប់កិច្ចការសង្គម              | -              | 1 cảm biến | 2025-05-08 → 2026-09-04
+    5804514 | AUPP Liger Leadership Academy    | -              | 1 cảm biến | 2025-09-16 → 2026-04-24
+    5721661 | CamKids' CCC School & Clinic     | -              | 1 cảm biến | 2025-09-09 → 2026-04-22
+    5732958 | CamKids' CCC School & Clinic     | -              | 1 cảm biến | 2025-09-10 → 2026-04-22
+    5840009 | Prey Lvea                        | -              | 1 cảm biến | 2025-09-19 → 2026-04-18
+    5555519 | AUPP Liger Leadership Academy    | -              | 1 cảm biến | 2025-08-25 → 2026-02-13
+    6085704 | AUPP Liger Leadership Academy    | -              | 1 cảm biến | 2025-10-10 → 2026-02-11
+    5436004 | AUPP Liger Leadership Academy    | -              | 1 cảm biến | 2025-08-15 → 2025-12-30
+    6094475 | AUPP Liger Leadership Academy    | -              | 1 cảm biến | 2025-10-14 → 2025-12-01
+    5435480 | AUPP Liger Leadership Academy    | -              | 1 cảm biến | 2025-08-15 → 2025-12-01
+===== LA =====
+/Users/khangbhc/Projects/Cassandra_ClickHouse_AirQuality_Starter/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+Hạn mức còn lại trong phút này: 56
+
+Tổng location LA: 167 | còn dữ liệu trong 365 ngày gần nhất: 155
+Trạm tham chiếu (isMonitor) / cảm biến giá rẻ: 1 / 154
+Theo nhà cung cấp: {'AirGradient': 154, 'Air4Thai': 1}
+Theo locality (city): {'(trống → tên quốc gia)': 154, 'Nan': 1}
+Cảm biến thuộc 6 chỉ số trong các location còn hoạt động: 163
+Theo chỉ số: {'co': 1, 'no2': 2, 'o3': 1, 'pm10': 1, 'pm25': 156, 'so2': 2}
+
+15 location cập nhật gần nhất:
+    3400986 | Chomphet Secondary School - Sisa | -              | 1 cảm biến | 2025-02-26 → 2026-11-07
+    3478630 | Santiphab Secondary School - Lua | -              | 1 cảm biến | 2025-02-26 → 2026-11-07
+    3478631 | Thaphabath Secondary School - Th | -              | 1 cảm biến | 2025-02-26 → 2026-11-07
+    3493785 | PakXeng Secondary School - PakXe | -              | 1 cảm biến | 2025-02-25 → 2026-11-07
+    3493786 | Thakhek - Khammouan              | -              | 1 cảm biến | 2025-02-25 → 2026-11-07
+    3493787 | Xebangfay Secondary School - Xeb | -              | 1 cảm biến | 2025-02-26 → 2026-11-07
+    3499026 | Phoukhoune Secondary School - Ph | -              | 1 cảm biến | 2025-02-26 → 2026-11-07
+    3501135 | Tonpheung Secondary School - Ton | -              | 1 cảm biến | 2025-02-26 → 2026-11-07
+    3501136 | Paktha - Bokeo                   | -              | 1 cảm biến | 2025-02-26 → 2026-11-07
+    3501137 | Phonxay Secpondary School - Phon | -              | 1 cảm biến | 2025-02-26 → 2026-11-07
+    3503723 | Pakkading - Bolikhamxai          | -              | 1 cảm biến | 2025-02-26 → 2026-11-07
+    3503724 | Nakhonxay Secondary School - Kha | -              | 1 cảm biến | 2025-02-26 → 2026-11-07
+    3503725 | Nhommalath - Khammouan           | -              | 1 cảm biến | 2025-02-26 → 2026-11-07
+    3510962 | Viengthong - Bolikhamxai         | -              | 1 cảm biến | 2025-04-23 → 2026-11-07
+    3510963 | Nongbok - Khammouan              | -              | 1 cảm biến | 2025-02-27 → 2026-11-07

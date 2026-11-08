@@ -1,0 +1,38 @@
+/Users/khangbhc/Projects/Cassandra_ClickHouse_AirQuality_Starter/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+Tìm trạm KH có phép đo từ 2025-11-07 đến 2026-11-07...
+Đã quét metadata 27 location.
+  Chọn Siem Reap | sensor=15210350 | pm25 | latest=2026-11-07T22:00:00+00:00
+  Chọn Mondul 2 | sensor=15063658 | pm25 | latest=2026-11-07T22:00:00+00:00
+  Chọn Civil Engineering, NPIC | sensor=12742762 | pm25 | latest=2026-11-07T22:00:00+00:00
+  Chọn Kok Roka | sensor=12742460 | pm25 | latest=2026-11-07T22:00:00+00:00
+  Chọn AUPP Liger Leadership Academy | sensor=14129436 | pm25 | latest=2026-11-07T10:00:00+00:00
+  Chọn បន្ទប់កិច្ចការសង្គម | sensor=12981932 | pm25 | latest=2026-09-04T05:00:00+00:00
+  Chọn AUPP Liger Leadership Academy | sensor=14129441 | pm25 | latest=2026-04-24T00:00:00+00:00
+  Chọn CamKids' CCC School & Clinic | sensor=14080912 | pm25 | latest=2026-04-22T03:00:00+00:00
+  Chọn CamKids' CCC School & Clinic | sensor=14073149 | pm25 | latest=2026-03-22T11:00:00+00:00
+  Chọn Prey Lvea | sensor=14157126 | pm25 | latest=2026-04-18T05:00:00+00:00
+  Chọn AUPP Liger Leadership Academy | sensor=13952896 | pm25 | latest=2026-02-13T06:00:00+00:00
+  Chọn AUPP Liger Leadership Academy | sensor=14337557 | pm25 | latest=2026-02-11T02:00:00+00:00
+  Chọn AUPP Liger Leadership Academy | sensor=13863816 | pm25 | latest=2025-12-30T01:00:00+00:00
+  Chọn AUPP Liger Leadership Academy | sensor=14370518 | pm25 | latest=2025-12-01T13:00:00+00:00
+  Chọn AUPP Liger Leadership Academy | sensor=13863299 | pm25 | latest=2025-12-01T08:00:00+00:00
+  Chọn AUPP Liger Leadership Academy | sensor=13863811 | pm25 | latest=2025-11-28T01:00:00+00:00
+Đã kiểm tra 16 location có khả năng còn dữ liệu gần đây.
+  Sensor 15210350: 6575 bản ghi lịch sử
+  Sensor 15063658: 7356 bản ghi lịch sử
+  Sensor 12742762: 7588 bản ghi lịch sử
+  Sensor 12742460: 8438 bản ghi lịch sử
+  Sensor 14129436: 4263 bản ghi lịch sử
+  Sensor 12981932: 6142 bản ghi lịch sử
+  Sensor 14129441: 417 bản ghi lịch sử
+  Sensor 14080912: 1511 bản ghi lịch sử
+  Sensor 14073149: 1627 bản ghi lịch sử
+  Sensor 14157126: 172 bản ghi lịch sử
+  Sensor 13952896: 1900 bản ghi lịch sử
+  Sensor 14337557: 1791 bản ghi lịch sử
+  Sensor 13863816: 787 bản ghi lịch sử
+  Sensor 14370518: 402 bản ghi lịch sử
+  Sensor 13863299: 260 bản ghi lịch sử
+  Sensor 13863811: 455 bản ghi lịch sử
+Hoàn tất: 49684 bản ghi | 16 sensor | /Users/khangbhc/Projects/Cassandra_ClickHouse_AirQuality_Starter/data/large_KH.csv

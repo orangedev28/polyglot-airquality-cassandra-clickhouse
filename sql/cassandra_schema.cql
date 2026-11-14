@@ -1,3 +1,4 @@
+-- Operational schema: partitioned by (location_id, parameter, measurement_date) for single-partition lookups
 CREATE KEYSPACE IF NOT EXISTS air_quality WITH replication = {'class':'SimpleStrategy','replication_factor':1};
 USE air_quality;
 CREATE TABLE IF NOT EXISTS measurements_by_station_day (

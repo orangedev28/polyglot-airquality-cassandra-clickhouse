@@ -1,3 +1,4 @@
+-- Analytical schema: MergeTree partitioned by month and ordered for city/parameter time-series aggregations
 CREATE DATABASE IF NOT EXISTS air_quality;
 CREATE TABLE IF NOT EXISTS air_quality.measurements (
  location_id UInt64, station_name String, sensor_id UInt64,

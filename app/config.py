@@ -1,7 +1,15 @@
+"""Environment configuration for OpenAQ, Cassandra, and ClickHouse connections."""
+
 import os
 from dotenv import load_dotenv
+
 load_dotenv()
-def env(k, default=None): return os.getenv(k, default)
+
+
+def env(k, default=None):
+    return os.getenv(k, default)
+
+
 OPENAQ_API_KEY = env("OPENAQ_API_KEY", "")
 CASSANDRA_HOST = env("CASSANDRA_HOST", "127.0.0.1")
 CASSANDRA_PORT = int(env("CASSANDRA_PORT", "9042"))

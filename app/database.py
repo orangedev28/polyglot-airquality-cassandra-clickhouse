@@ -1,3 +1,5 @@
+"""Dual-write database connector for Apache Cassandra (operational) and ClickHouse (analytical)."""
+
 from datetime import datetime, timezone
 from cassandra.cluster import Cluster
 from cassandra.concurrent import execute_concurrent_with_args
@@ -5,11 +7,18 @@ import clickhouse_connect
 from app.config import *
 
 KS = "air_quality"
+
+
 class DatabaseWriter:
+    """Manages connections, schema initialization, and batched dual-writes to Cassandra and ClickHouse."""
+
     def __init__(self):
         self.cluster = Cluster([CASSANDRA_HOST], port=CASSANDRA_PORT)
         self.session = self.cluster.connect()
-        self.session.execute(f"CREATE KEYSPACE IF NOT EXISTS {KS} WITH replication = {{'class':'SimpleStrategy','replication_factor':1}}")
+        self.session.execute(
+            f"CREATE KEYSPACE IF NOT EXISTS {KS} "
+            f"WITH replication = {{'class':'SimpleStrategy','replication_factor':1}}"
+        )
         self.session.set_keyspace(KS)
         self.session.execute('''
           CREATE TABLE IF NOT EXISTS measurements_by_station_day (
@@ -25,8 +34,12 @@ class DatabaseWriter:
           (location_id,parameter,measurement_date,measured_at,sensor_id,station_name,value,unit,latitude,longitude,city,source)
           VALUES (?,?,?,?,?,?,?,?,?,?,?,?)
         ''')
-        self.ch = clickhouse_connect.get_client(host=CLICKHOUSE_HOST, port=CLICKHOUSE_PORT,
-            username=CLICKHOUSE_USER, password=CLICKHOUSE_PASSWORD)
+        self.ch = clickhouse_connect.get_client(
+            host=CLICKHOUSE_HOST,
+            port=CLICKHOUSE_PORT,
+            username=CLICKHOUSE_USER,
+            password=CLICKHOUSE_PASSWORD,
+        )
         self.ch.command(f"CREATE DATABASE IF NOT EXISTS {CLICKHOUSE_DATABASE}")
         self.ch.command(f'''
           CREATE TABLE IF NOT EXISTS {CLICKHOUSE_DATABASE}.measurements (
@@ -40,28 +53,42 @@ class DatabaseWriter:
         ''')
 
     def insert_batch(self, rows):
+        """Write a batch of normalized measurement rows to Cassandra first, then ClickHouse."""
         ch_rows = []
         cql_args = []
         for r in rows:
             dt = r["measured_at"]
-            if isinstance(dt, str): dt = datetime.fromisoformat(dt.replace("Z","+00:00"))
-            if dt.tzinfo is None: dt = dt.replace(tzinfo=timezone.utc)
+            if isinstance(dt, str):
+                dt = datetime.fromisoformat(dt.replace("Z", "+00:00"))
+            if dt.tzinfo is None:
+                dt = dt.replace(tzinfo=timezone.utc)
             dt = dt.astimezone(timezone.utc).replace(tzinfo=None)
-            cql_args.append((int(r["location_id"]), r["parameter"], dt.date(), dt,
+            cql_args.append((
+                int(r["location_id"]), r["parameter"], dt.date(), dt,
                 int(r["sensor_id"]), r["station_name"], float(r["value"]), r["unit"],
-                float(r["latitude"]), float(r["longitude"]), r["city"], r["source"]))
-            ch_rows.append([int(r["location_id"]),r["station_name"],int(r["sensor_id"]),
-                r["parameter"],r["unit"],dt,float(r["value"]),float(r["latitude"]),
-                float(r["longitude"]),r["city"],r["source"]])
+                float(r["latitude"]), float(r["longitude"]), r["city"], r["source"],
+            ))
+            ch_rows.append([
+                int(r["location_id"]), r["station_name"], int(r["sensor_id"]),
+                r["parameter"], r["unit"], dt, float(r["value"]), float(r["latitude"]),
+                float(r["longitude"]), r["city"], r["source"],
+            ])
         if cql_args:
-            execute_concurrent_with_args(self.session, self.ins, cql_args,
-                concurrency=50, raise_on_first_error=True)
+            execute_concurrent_with_args(
+                self.session, self.ins, cql_args, concurrency=50, raise_on_first_error=True
+            )
         if ch_rows:
-            self.ch.insert(f"{CLICKHOUSE_DATABASE}.measurements", ch_rows,
-                column_names=["location_id","station_name","sensor_id","parameter","unit",
-                "measured_at","value","latitude","longitude","city","source"])
+            self.ch.insert(
+                f"{CLICKHOUSE_DATABASE}.measurements",
+                ch_rows,
+                column_names=[
+                    "location_id", "station_name", "sensor_id", "parameter", "unit",
+                    "measured_at", "value", "latitude", "longitude", "city", "source",
+                ],
+            )
 
     def close(self):
+        """Close Cassandra and ClickHouse client sessions."""
         self.session.shutdown()
         self.cluster.shutdown()
         self.ch.close()
